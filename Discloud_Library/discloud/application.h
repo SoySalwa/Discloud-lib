@@ -427,6 +427,17 @@ namespace dcl {
 				return "";
 			}
 		}
+
+		const std::string get_message_start() const {
+			try {
+				json response_data = json::parse(_response);
+				std::string message = response_data["message"];
+				return message;
+			}
+			catch (...) {
+				return "";
+			}
+		}
 		/**
 		 * Make a request to the DisCloud API to put restart the application.
 		 * @param discloud_token The DisCloud API token.
@@ -434,8 +445,45 @@ namespace dcl {
 		 * @return The API response as a string (JSON).
 		 */
 		std::string restart_application(const dcl::discloud& discloud_token, const std::string& end_point) {
-			dcl::discloud discloud(discloud_token);
-			return discloud.route(end_point, "PUT");
+			try {
+				dcl::discloud discloud(discloud_token);
+				std::string _response = discloud.route(end_point, "PUT");
+
+				if (!_response.empty()) {
+					try {
+						auto json_response = nlohmann::json::parse(_response);
+						set_response(discloud.get_response(_response));
+						return _response;
+					}
+					catch (const nlohmann::json::parse_error& e) {
+						std::cerr << "JSON parse error: " << e.what() << std::endl;
+						return "";
+					}
+				}
+				else {
+					std::cerr << "The response is null or empty." << std::endl;
+					return "";
+				}
+			}
+			catch (const std::runtime_error& e) {
+				std::cerr << "An error occurred: " << e.what() << std::endl;
+				return "";
+			}
+			catch (const std::exception& e) {
+				std::cerr << "An unexpected error occurred: " << e.what() << std::endl;
+				return "";
+			}
+		}
+
+		const std::string get_message_restart() const {
+			try {
+				json response_data = json::parse(_response);
+				std::string message = response_data["message"];
+				return message;
+			}
+			catch (...) {
+				return "";
+			}
 		}
 		/**
 		 * Make a request to the DisCloud API to put stop the application.
