@@ -25,11 +25,36 @@ namespace dcl {
 		 * @param end_point The API endpoint to make the request to.
 		 * @return The API response as a string (JSON).
 		 */
+
 		std::string get_application(const dcl::discloud& discloud_token, const std::string& end_point) {
-			dcl::discloud discloud(discloud_token);
-			_response = discloud.route(end_point, "GET");
-			set_response(discloud.get_response(_response));
-			return _response;
+			try {
+				dcl::discloud discloud(discloud_token);
+				std::string _response = discloud.route(end_point, "GET");
+
+				if (!_response.empty()) {
+					try {
+						auto json_response = nlohmann::json::parse(_response);
+						set_response(discloud.get_response(_response));
+						return _response;
+					}
+					catch (const nlohmann::json::parse_error& e) {
+						std::cerr << "JSON parse error: " << e.what() << std::endl;
+						return ""; 
+					}
+				}
+				else {
+					std::cerr << "The response is null or empty." << std::endl;
+					return ""; 
+				}
+			}
+			catch (const std::runtime_error& e) {
+				std::cerr << "An error occurred: " << e.what() << std::endl;
+				return ""; 
+			}
+			catch (const std::exception& e) {
+				std::cerr << "An unexpected error occurred: " << e.what() << std::endl;
+				return ""; 
+			}
 		}
 		/**
 		  It's the id of the application.
@@ -75,7 +100,6 @@ namespace dcl {
 				return name;
 			}
 			catch (...) {
-				// Capturar cualquier excepción y devolver una cadena vacía
 				return "";
 			}
 		}
@@ -166,12 +190,39 @@ namespace dcl {
 		 * @return The API response as a string (JSON).
 		 */
 		std::string get_status_application(const dcl::discloud& discloud_token, const std::string& end_point) {
-			dcl::discloud discloud(discloud_token);
-			_response = discloud.route(end_point, "GET");
-			set_response(discloud.get_response(_response));
-			//return _response;
-		}
+			try {
+				dcl::discloud discloud(discloud_token);
+				std::string _response = discloud.route(end_point, "GET");
 
+				if (!_response.empty()) {
+					try {
+						auto json_response = nlohmann::json::parse(_response);
+						set_response(discloud.get_response(_response));
+						return _response;
+					}
+					catch (const nlohmann::json::parse_error& e) {
+						std::cerr << "JSON parse error: " << e.what() << std::endl;
+						return "";
+					}
+				}
+				else {
+					std::cerr << "The response is null or empty." << std::endl;
+					return "";
+				}
+			}
+			catch (const std::runtime_error& e) {
+				std::cerr << "An error occurred: " << e.what() << std::endl;
+				return "";
+			}
+			catch (const std::exception& e) {
+				std::cerr << "An unexpected error occurred: " << e.what() << std::endl;
+				return "";
+			}
+		}
+		/**
+		 * It's a value of type string, get the id of the application.
+		 * @return A value of type string with the id of the application.
+		 */
 		const std::string status_id() const {
 			try {
 				json response_data = json::parse(response);
@@ -185,6 +236,11 @@ namespace dcl {
 				return "";
 			}
 		}
+
+		/**
+		 * It's a value of type string, get the status of the application.
+		 * @return A value of type string with the status application.
+		 */
 		const std::string container() const {
 			try {
 				json response_data = json::parse(response);
@@ -198,6 +254,10 @@ namespace dcl {
 				return "";
 			}
 		}
+		/**
+		 * It's a value of type string, get the cpu of the application.
+		 * @return A value of type string with the cpu of the application.
+		 */
 		const std::string cpu() const {
 			try {
 				json response_data = json::parse(response);
@@ -211,6 +271,10 @@ namespace dcl {
 				return "";
 			}
 		}
+		/**
+		 * It's a value of type string, get the memory of the application.
+		 * @return A value of type string with the memory of the application.
+		 */
 		const std::string memory() const {
 			try {
 				json response_data = json::parse(response);
@@ -224,6 +288,10 @@ namespace dcl {
 				return "";
 			}
 		}
+		/**
+		 * It's a value of type string, get the disk of the application.
+		 * @return A value of type string with the disk of the application.
+		 */
 		const std::string disk() const {
 			try {
 				json response_data = json::parse(response);
@@ -237,11 +305,17 @@ namespace dcl {
 				return "";
 			}
 		}
+
+		/**
+		 * It's a value of type string, get the uptime of the application.
+		 * @return A value of type string with the uptime of the application.
+		 */
 		const std::string uptime() const {
 			try {
 				json response_data = json::parse(response);
-				std::string time = response_data["last_restart"];
-				return time;
+				json time = response_data["apps"];
+				std::string uptime = time["last_restart"];
+				return uptime;
 			}
 			catch (...) {
 				return "";
@@ -254,8 +328,58 @@ namespace dcl {
 		 * @return The API response as a string (JSON).
 		 */
 		std::string get_logs_application(const dcl::discloud& discloud_token, const std::string& end_point) {
-			dcl::discloud discloud(discloud_token);
-			return discloud.route(end_point, "GET");
+			try {
+				dcl::discloud discloud(discloud_token);
+				std::string _response = discloud.route(end_point, "GET");
+
+				if (!_response.empty()) {
+					try {
+						auto json_response = nlohmann::json::parse(_response);
+						set_response(discloud.get_response(_response));
+						return _response;
+					}
+					catch (const nlohmann::json::parse_error& e) {
+						std::cerr << "JSON parse error: " << e.what() << std::endl;
+						return "";
+					}
+				}
+				else {
+					std::cerr << "The response is null or empty." << std::endl;
+					return "";
+				}
+			}
+			catch (const std::runtime_error& e) {
+				std::cerr << "An error occurred: " << e.what() << std::endl;
+				return "";
+			}
+			catch (const std::exception& e) {
+				std::cerr << "An unexpected error occurred: " << e.what() << std::endl;
+				return "";
+			}
+		}
+
+		const std::string logs_big() const {
+			try {
+				json response_data = json::parse(_response);
+				json terminal = response_data["apps"]["terminal"];
+				std::string logs_big = terminal["big"];
+				return logs_big;
+			}
+			catch (...) {
+				return "";
+			}
+		}
+
+		const std::string logs_small() const {
+			try {
+				json response_data = json::parse(_response);
+				json terminal = response_data["apps"]["terminal"];
+				std::string logs_small = terminal["small"];
+				return logs_small;
+			}
+			catch (...) {
+				return "";
+			}
 		}
 		/**
          * Make a request to the DisCloud API to obtain backup data application.
@@ -274,8 +398,34 @@ namespace dcl {
          * @return The API response as a string (JSON).
          */
 		std::string start_application(const dcl::discloud& discloud_token, const std::string& end_point) {
-			dcl::discloud discloud(discloud_token);
-			return discloud.route(end_point, "PUT");
+			try {
+				dcl::discloud discloud(discloud_token);
+				std::string _response = discloud.route(end_point, "PUT");
+
+				if (!_response.empty()) {
+					try {
+						auto json_response = nlohmann::json::parse(_response);
+						set_response(discloud.get_response(_response));
+						return _response;
+					}
+					catch (const nlohmann::json::parse_error& e) {
+						std::cerr << "JSON parse error: " << e.what() << std::endl;
+						return "";
+					}
+				}
+				else {
+					std::cerr << "The response is null or empty." << std::endl;
+					return "";
+				}
+			}
+			catch (const std::runtime_error& e) {
+				std::cerr << "An error occurred: " << e.what() << std::endl;
+				return "";
+			}
+			catch (const std::exception& e) {
+				std::cerr << "An unexpected error occurred: " << e.what() << std::endl;
+				return "";
+			}
 		}
 		/**
 		 * Make a request to the DisCloud API to put restart the application.
