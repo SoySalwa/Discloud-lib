@@ -13,10 +13,10 @@ int main() {
     dcl::discloud discloud(token);
     dcl::application myApp = dcl::application();
     dcl::application app_status = dcl::application();
+    dcl::application app_logs = dcl::application();
+    // myApp.get_application(discloud.get_token(), "/app/" + app);
 
-     myApp.get_application(discloud.get_token(), "/app/" + app);
-
-    /*std::cout << "It's information of your application: " << std::endl;
+    /* std::cout << "It's information of your application: " << std::endl;
     std::cout << "\n";
     std::cout << "App Name: " << myApp.name() << std::endl;
     std::cout << "App Id: " << myApp.id() << std::endl;
@@ -29,7 +29,7 @@ int main() {
     std::cout << "\n" << std::endl; */
 
      app_status.get_status_application(discloud.get_token(), "/app/" + app + "/status");
-  /*  std::cout << "It's information of your status application: " << std::endl;
+    std::cout << "It's information of your status application: " << std::endl;
     std::cout << "\n";
     std::cout << "App Id: " << app_status.status_id() << std::endl;
     std::cout << "Online: " << app_status.container() << std::endl;
@@ -39,6 +39,11 @@ int main() {
     std::cout << "Uptime: " << app_status.uptime() << std::endl;
 
     std::cout << "\n" << std::endl;
-    */
+    
+    app_logs.get_logs_application(discloud.get_token(), "/app/" + app + "/logs");
+    std::cout << "The logs of your applications were loaded: " << std::endl;
+    std::cout << "Logs big: " << app_logs.logs_big() << std::endl;
+    std::cout << "Logs small: " << app_logs.logs() << std::endl;
+
     return 0;
 }
