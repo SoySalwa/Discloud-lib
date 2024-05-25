@@ -8,22 +8,23 @@
 #include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
+
 namespace dcl {
     class discloud {
     public:
         /**
-          * Constructor for initializing DisCloud API access.
-          * @param token A string representing the DisCloud API token.
-          */
-        discloud(const std::string& token) : discloud_token(token) {};
-        
+         * Constructor for initializing DisCloud API access.
+         * @param token A string representing the DisCloud API token.
+         */
+        discloud(const std::string& token) : discloud_token(token) {}
+
         /**
-        * Function for to add a endpoint in the discloud url.
-        * @param end_point A url that represents the endpoint you want to access.
-        */
+         * Function to add an endpoint in the discloud URL.
+         * @param end_point A URL that represents the endpoint you want to access.
+         * @param method The HTTP method to use for the request.
+         */
         std::string route(const std::string& end_point, const std::string& method) {
             CURL* curl = curl_easy_init();
-
             if (!curl) {
                 throw std::runtime_error("Error initializing Curl.");
             }
@@ -37,40 +38,45 @@ namespace dcl {
             curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 
             curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, method.c_str());
-
             curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, dcl::discloud::WriteCallback);
             curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
-
-            curl_easy_setopt(curl, CURLOPT_TIMEOUT, 1L);
+            curl_easy_setopt(curl, CURLOPT_TIMEOUT, 5L);
 
             CURLcode res = curl_easy_perform(curl);
-            json response_data = json::parse(response);
             if (res != CURLE_OK) {
                 curl_slist_free_all(headers);
                 curl_easy_cleanup(curl);
                 throw std::runtime_error("cURL request failed: " + std::string(curl_easy_strerror(res)));
             }
-            else {
-                
+
+            // Ensure response is a valid JSON
+            try {
+                json response_data = json::parse(response);
                 std::cout << "Discloud Response: " << response_data.dump(4) << std::endl;
-               return this->get_response(response);
+                this->get_response(response);
+            }
+            catch (const json::parse_error& e) {
+                throw std::runtime_error("JSON parse error: " + std::string(e.what()));
             }
 
             curl_slist_free_all(headers);
             curl_easy_cleanup(curl);
+
+            return response;
         }
+
         /**
-          * Function for to get DisCloud API Token in format string.
-          * @return discloud_token A string representing the DisCloud API token.
-          */
-        dcl::discloud get_token() const {
+         * Function to get DisCloud API Token in string format.
+         * @return A string representing the DisCloud API token.
+         */
+        std::string get_token() const {
             return discloud_token;
         }
 
         std::string get_response(std::string& response) const {
             return response;
         }
-        
+
     private:
         std::string discloud_token;
         std::string response;
@@ -84,4 +90,4 @@ namespace dcl {
     };
 }
 
-#endif // !DISCLOUD_H
+#endif // DISCLOUD_H
