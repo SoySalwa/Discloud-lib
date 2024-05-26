@@ -21,14 +21,14 @@ namespace dcl {
             return discloud.route(end_point, "GET");
         }
         /**
-         * Make a request to the DisCloud API to obtain user team data.
+         * Make a request to the DisCloud API to put set locale.
          * @param discloud_token The DisCloud API token.
          * @param end_point The API endpoint to make the request to.
          * @return The API response as a string (JSON).
          */
-        std::string get_user_team(const dcl::discloud& discloud_token, const std::string& end_point) {
+        std::string get_locale(const dcl::discloud& discloud_token, const std::string& end_point) {
             dcl::discloud discloud(discloud_token);
-            return discloud.route(end_point, "GET");
+            return discloud.route(end_point, "PUT");
         }
     };
 }
