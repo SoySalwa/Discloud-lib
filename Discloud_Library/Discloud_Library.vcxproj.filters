@@ -32,5 +32,8 @@
     <ClInclude Include="discloud\application.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="teamManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
