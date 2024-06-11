@@ -17,10 +17,13 @@ This project aims to streamline the process of making requests to the Discloud A
 - C++11 or later
 - CURL library
 
-## Documentation
+## Documentation Official
 For detailed information on how to use the Discloud services, please refer to the official documentation:
 
-• (Website)[https://discloud.com]
-• (Docs of Discloud)[https://docs.discloudbot.com/v/en]
+- [Website](https://discloud.com)
+- [Docs of Discloud](https://docs.discloudbot.com/v/en)
 
-# Will be ready very soon.
+## Documentation in C++
+ Coming Soon.
+ 
+# The library will be ready very soon.
