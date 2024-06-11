@@ -1,7 +1,26 @@
-It's intention is to speed up the code used to make requests to the API from C++, using CURL as a tool to do so.
+# Discloud API C++ Library
 
-Website: https://discloud.com
-Docs of Discloud: https://docs.discloudbot.com/v/en
+## Overview
 
-Website/DOCS - Discloud-LIB in C++.
-Coming Soon.
+This project aims to streamline the process of making requests to the Discloud API from C++ using CURL. By providing a simplified interface, developers can easily integrate Discloud services into their C++ applications.
+
+## Features
+
+- Easy integration with the Discloud API.
+- Utilizes CURL for efficient HTTP requests.
+- Simplified functions for common API interactions.
+
+## Getting Started
+
+### Prerequisites
+
+- C++11 or later
+- CURL library
+
+## Documentation
+For detailed information on how to use the Discloud services, please refer to the official documentation:
+
+• (Website)[https://discloud.com]
+• (Docs of Discloud)[https://docs.discloudbot.com/v/en]
+
+# Will be ready very soon.
