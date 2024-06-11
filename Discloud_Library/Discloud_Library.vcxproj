@@ -136,9 +136,11 @@
   <ItemGroup>
     <ClInclude Include="discloud\application.h" />
     <ClInclude Include="discloud\discloud.h" />
+    <ClInclude Include="discloud\TeamManager.h" />
+    <ClInclude Include="discloud\team.h" />
+    <ClInclude Include="discloud\upload.h" />
     <ClInclude Include="discloud\user.h" />
     <ClInclude Include="snowflake.h" />
-    <ClInclude Include="teamManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

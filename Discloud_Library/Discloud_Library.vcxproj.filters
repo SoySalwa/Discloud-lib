@@ -32,7 +32,13 @@
     <ClInclude Include="discloud\application.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="teamManager.h">
+    <ClInclude Include="discloud\TeamManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="discloud\team.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="discloud\upload.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
