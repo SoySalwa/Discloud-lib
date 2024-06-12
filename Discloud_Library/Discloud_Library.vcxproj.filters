@@ -18,9 +18,6 @@
     <ClInclude Include="discloud\discloud.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="snowflake.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="discloud\user.h">
       <Filter>Header Files</Filter>
     </ClInclude>
