@@ -49,16 +49,6 @@ namespace dcl {
                 throw std::runtime_error("cURL request failed: " + std::string(curl_easy_strerror(res)));
             }
 
-            // Ensure response is a valid JSON
-            try {
-                json response_data = json::parse(response);
-                std::cout << "Discloud Response: " << response_data.dump(4) << std::endl;
-                this->get_response(response);
-            }
-            catch (const json::parse_error& e) {
-                throw std::runtime_error("JSON parse error: " + std::string(e.what()));
-            }
-
             curl_slist_free_all(headers);
             curl_easy_cleanup(curl);
 
@@ -71,10 +61,6 @@ namespace dcl {
          */
         std::string get_token() const {
             return discloud_token;
-        }
-
-        std::string get_response(std::string& response) const {
-            return response;
         }
 
     private:
