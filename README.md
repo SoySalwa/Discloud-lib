@@ -14,9 +14,12 @@ This project aims to streamline the process of making requests to the Discloud A
 
 ### Prerequisites
 
-- C++11 or later
+- C++20 or later
 - CURL library
 
+ if you haven't CURL installed, install it:
+ - [CURL Install](https://curl.se/download.html)
+ 
 ## Documentation Official
 For detailed information on how to use the Discloud services, please refer to the official documentation:
 
