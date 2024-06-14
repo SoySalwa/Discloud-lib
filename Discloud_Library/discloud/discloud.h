@@ -23,7 +23,7 @@ namespace dcl {
          * @param end_point A URL that represents the endpoint you want to access.
          * @param method The HTTP method to use for the request.
          */
-        std::string route(const std::string& end_point, const std::string& method) {
+        std::string route(const std::string& end_point, const std::string& method, const std::string& file = std::string()) {
             CURL* curl = curl_easy_init();
             if (!curl) {
                 throw std::runtime_error("Error initializing Curl.");
@@ -42,6 +42,19 @@ namespace dcl {
             curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
             curl_easy_setopt(curl, CURLOPT_TIMEOUT, 5L);
 
+            if (!file.empty()) {
+                curl_mime* mime;
+                curl_mimepart* part;
+
+                mime = curl_mime_init(curl);
+
+                part = curl_mime_addpart(mime);
+                curl_mime_name(part, "file");
+                curl_mime_filedata(part, file.c_str());
+
+                curl_easy_setopt(curl, CURLOPT_MIMEPOST, mime);
+            }
+
             CURLcode res = curl_easy_perform(curl);
             if (res != CURLE_OK) {
                 curl_slist_free_all(headers);
@@ -54,6 +67,7 @@ namespace dcl {
 
             return response;
         }
+
 
         /**
          * Function to get DisCloud API Token in string format.
