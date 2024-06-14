@@ -363,7 +363,7 @@ namespace dcl {
 		/**
          * Make a request to the DisCloud API to obtain backup data application.
          * @param discloud_token The DisCloud API token.
-         * @param end_point The API endpoint to make the request to.
+         * @param end_point The API endpoint make the request to.
          * @return The API response as a string (JSON).
          */
 		void get_backup_application(const dcl::discloud& discloud_token, const std::string& end_point) {
@@ -392,9 +392,39 @@ namespace dcl {
 			}
 		}
 		/**
+		* Get the message received for Discloud API backup info.
+		* @return Message of the Discloud API.
+		*/
+		const std::string get_message() {
+			try {
+				json response_data = json::parse(response);
+
+
+				std::string message = response_data["message"];
+				return message;
+			}
+			catch (...) {
+				return "";
+			}
+		};
+		/**
+		* Gets the URL with the files of the APP.
+		* @return The url with the files.
+		*/
+		const std::string get_backup() {
+			try {
+				json response_data = json::parse(response);
+				std::string backup = response_data["backups"]["url"];
+				return backup;
+			}
+			catch (...) {
+				return "";
+			}
+		}
+		/**
          * Make a request to the DisCloud API to put start the application.
          * @param discloud_token The DisCloud API token.
-         * @param end_point The API endpoint to make the request to.
+         * @param end_point The API endpoint make the request to.
          * @return The API response as a string (JSON).
          */
 		void start_application(const dcl::discloud& discloud_token, const std::string& end_point) {
