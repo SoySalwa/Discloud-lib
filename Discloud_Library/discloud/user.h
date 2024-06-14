@@ -204,7 +204,7 @@ namespace dcl {
          * @param discloud_token The DisCloud API token.
          * @param end_point The API endpoint make the request to.
          */
-        void get_locale(const dcl::discloud& discloud_token, const std::string& end_point) {
+        void set_locale(const dcl::discloud& discloud_token, const std::string& end_point) {
             try {
                 dcl::discloud discloud(discloud_token);
                 _response = discloud.route(end_point, "PUT");
