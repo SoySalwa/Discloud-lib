@@ -13,14 +13,13 @@ namespace dcl {
         user() = default;
 
         ~user() = default;
-       // user(const user&) = delete;
-       // user& operator =(const user&) = delete;
-         /**
-         * Make a request to the DisCloud API to obtain user data.
-         * @param discloud_token The DisCloud API token.
-         * @param end_point The API endpoint to make the request to.
-         * @return The AP I response as a string (JSON).
-         */
+        // user(const user&) = delete;
+        // user& operator =(const user&) = delete;
+          /**
+          * Make a request to the DisCloud API to obtain user data.
+          * @param discloud_token The DisCloud API token.
+          * @param end_point The API endpoint make the request to.
+          */
         void get_user(const dcl::discloud& discloud_token, const std::string& end_point) {
             try {
                 dcl::discloud discloud(discloud_token);
@@ -30,32 +29,44 @@ namespace dcl {
                     try {
                         auto json_response = nlohmann::json::parse(_response);
                         set_response(_response);
-                        //return response;
                     }
                     catch (const nlohmann::json::parse_error& e) {
                         std::cerr << "JSON parse error: " << e.what() << std::endl;
-                       // return "";
                     }
                 }
                 else {
                     std::cerr << "The response is null or empty." << std::endl;
-                    //return "";
                 }
             }
             catch (const std::runtime_error& e) {
                 std::cerr << "An error occurred: " << e.what() << std::endl;
-                //return "";
             }
             catch (const std::exception& e) {
                 std::cerr << "An unexpected error occurred: " << e.what() << std::endl;
-                //return "";
+            }
+        }
+
+        /**
+         * Get the message received for Discloud API for the user info.
+         * @return Message of the Discloud API.
+         */
+        const std::string get_message() {
+            try {
+                json response_data = json::parse(response);
+
+
+                std::string message = response_data["message"];
+                return message;
+            }
+            catch (...) {
+                return "";
             }
         }
         /**
-         * It's a value of type string, get the user id.
+         * Gets the user id.
          * @return A value of type string with the id of the user.
          */
-        const std::string user_id()  {
+        const std::string user_id() {
             try {
                 json response_data = json::parse(response);
 
@@ -70,7 +81,7 @@ namespace dcl {
         }
 
         /**
-         * It's a value of type string, get the total ram for this user.
+         * Gets the total ram of this user.
          * @return A value of type string with the total ram of the user.
          */
         const std::string total_ram() const {
@@ -87,7 +98,7 @@ namespace dcl {
             }
         }
         /**
-         * It's a value of type string, get the used ram for this user.
+         * Gets the used ram of this user.
          * @return A value of type string with the used ram of the user.
          */
         const std::string ram_used() const {
@@ -104,7 +115,7 @@ namespace dcl {
             }
         }
         /**
-          * It's a value of type string, get the sub domains for this user.
+          * Gets the sub domains of this user.
           * @return A value of type string with the sub domains of the user.
           */
         const std::string sub_domains() const {
@@ -121,7 +132,7 @@ namespace dcl {
             }
         }
         /**
-         * It's a value of type string, get the custom domains for this user.
+         * Gets the custom domains of this user.
          * @return A value of type string with the custom domains of the user.
          */
         const std::string custom_domains() const {
@@ -138,7 +149,7 @@ namespace dcl {
             }
         }
         /**
-         * It's a value of type string, get the apps of this user.
+         * Gets the apps of this user.
          * @return A value of type string with the apps of the user.
          */
         const std::string apps() const {
@@ -155,7 +166,7 @@ namespace dcl {
             }
         }
         /**
-         * It's a value of type string, get the actual plan for this user.
+         * Gets the actual plan of this user.
          * @return A value of type string with the plan of the user.
          */
         const std::string plan() const {
@@ -172,7 +183,7 @@ namespace dcl {
             }
         }
         /**
-        * It's a value of type string, get the locale for this user.
+        * Gets the locale of this user.
         * @return A value of type string with the locale of the user.
         */
         const std::string locale() const {
@@ -182,6 +193,51 @@ namespace dcl {
                 json user_locale = response_data["user"];
 
                 std::string locale = user_locale["locale"];
+                return locale;
+            }
+            catch (...) {
+                return "";
+            }
+        }
+        /**
+         * Make a request to the DisCloud API to put set language of the user.
+         * @param discloud_token The DisCloud API token.
+         * @param end_point The API endpoint make the request to.
+         */
+        void get_locale(const dcl::discloud& discloud_token, const std::string& end_point) {
+            try {
+                dcl::discloud discloud(discloud_token);
+                _response = discloud.route(end_point, "PUT");
+
+                if (!_response.empty()) {
+                    try {
+                        auto json_response = nlohmann::json::parse(_response);
+                        set_response(_response);
+                    }
+                    catch (const nlohmann::json::parse_error& e) {
+                        std::cerr << "JSON parse error: " << e.what() << std::endl;
+                    }
+                }
+                else {
+                    std::cerr << "The response is null or empty." << std::endl;
+                }
+            }
+            catch (const std::runtime_error& e) {
+                std::cerr << "An error occurred: " << e.what() << std::endl;
+            }
+            catch (const std::exception& e) {
+                std::cerr << "An unexpected error occurred: " << e.what() << std::endl;
+            }
+        }
+        /**
+        * Get the language locale of the user.
+        * @return The locale as a string.
+        */
+        const std::string get_locale() const {
+            try {
+                json response_data = json::parse(response);
+
+                std::string locale = response_data["locale"];
                 return locale;
             }
             catch (...) {
@@ -201,17 +257,6 @@ namespace dcl {
                 throw std::runtime_error("JSON parse error: " + std::string(e.what()));
             }
         }
-        /**
-         * Make a request to the DisCloud API to put set locale.
-         * @param discloud_token The DisCloud API token.
-         * @param end_point The API endpoint to make the request to.
-         * @return The API response as a string (JSON).
-         */
-        std::string get_locale(const dcl::discloud& discloud_token, const std::string& end_point) {
-            dcl::discloud discloud(discloud_token);
-            return discloud.route(end_point, "PUT");
-        }
-
     private:
         std::string response;
         std::string _response;
