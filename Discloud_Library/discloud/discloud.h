@@ -22,7 +22,8 @@ namespace dcl {
          * Function to add an endpoint in the discloud URL.
          * @param end_point A URL that represents the endpoint you want to access.
          * @param method The HTTP method to use for the request.
-         */
+         * @param Added an optional argument (it's only for upload a file in the API)
+          */
         std::string route(const std::string& end_point, const std::string& method, const std::string& file = std::string()) {
             CURL* curl = curl_easy_init();
             if (!curl) {
