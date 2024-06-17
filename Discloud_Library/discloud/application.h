@@ -20,7 +20,7 @@ namespace dcl {
 		 * @return The API response as a string (JSON).
 		 */
 
-		void get_application(const dcl::discloud& discloud_token, const std::string& end_point) {
+		dcl::application get_application(const dcl::discloud& discloud_token, const std::string& end_point) {
 			try {
 				dcl::discloud discloud(discloud_token);
 				_response = discloud.route(end_point, "GET");
@@ -44,6 +44,7 @@ namespace dcl {
 			catch (const std::exception& e) {
 				std::cerr << "An unexpected error occurred: " << e.what() << std::endl;
 			}
+			return dcl::application();
 		}
 		/**
 		  It's the id of the application.
@@ -178,7 +179,7 @@ namespace dcl {
 		 * @param end_point The API endpoint to make the request to.
 		 * @return The API response as a string (JSON).
 		 */
-		void get_status_application(const dcl::discloud& discloud_token, const std::string& end_point) {
+		dcl::application get_status_application(const dcl::discloud& discloud_token, const std::string& end_point) {
 			try {
 				dcl::discloud discloud(discloud_token);
 				_response = discloud.route(end_point, "GET");
@@ -202,6 +203,7 @@ namespace dcl {
 			catch (const std::exception& e) {
 				std::cerr << "An unexpected error occurred: " << e.what() << std::endl;
 			}
+			return dcl::application();
 		}
 		/**
 		 * It's a value of type string, get the id of the application.
@@ -311,7 +313,7 @@ namespace dcl {
 		 * @param end_point The API endpoint to make the request to.
 		 * @return The API response as a string (JSON).
 		 */
-		void get_logs_application(const dcl::discloud& discloud_token, const std::string& end_point) {
+		dcl::application get_logs_application(const dcl::discloud& discloud_token, const std::string& end_point) {
 			try {
 				dcl::discloud discloud(discloud_token);
 				_response = discloud.route(end_point, "GET");
@@ -335,6 +337,7 @@ namespace dcl {
 			catch (const std::exception& e) {
 				std::cerr << "An unexpected error occurred: " << e.what() << std::endl;
 			}
+			return dcl::application();
 		}
 
 		const std::string logs_big() const {
@@ -366,7 +369,7 @@ namespace dcl {
          * @param end_point The API endpoint make the request to.
          * @return The API response as a string (JSON).
          */
-		void get_backup_application(const dcl::discloud& discloud_token, const std::string& end_point) {
+		dcl::application get_backup_application(const dcl::discloud& discloud_token, const std::string& end_point) {
 			try {
 				dcl::discloud discloud(discloud_token);
 				_response = discloud.route(end_point, "GET");
@@ -390,23 +393,8 @@ namespace dcl {
 			catch (const std::exception& e) {
 				std::cerr << "An unexpected error occurred: " << e.what() << std::endl;
 			}
+			return dcl::application();
 		}
-		/**
-		* Get the message received for Discloud API backup info.
-		* @return Message of the Discloud API.
-		*/
-		const std::string get_message() {
-			try {
-				json response_data = json::parse(response);
-
-
-				std::string message = response_data["message"];
-				return message;
-			}
-			catch (...) {
-				return "";
-			}
-		};
 		/**
 		* Gets the URL with the files of the APP.
 		* @return The url with the files.
@@ -427,7 +415,7 @@ namespace dcl {
          * @param end_point The API endpoint make the request to.
          * @return The API response as a string (JSON).
          */
-		void start_application(const dcl::discloud& discloud_token, const std::string& end_point) {
+		dcl::application start_application(const dcl::discloud& discloud_token, const std::string& end_point) {
 			try {
 				dcl::discloud discloud(discloud_token);
 				_response = discloud.route(end_point, "PUT");
@@ -451,6 +439,7 @@ namespace dcl {
 			catch (const std::exception& e) {
 				std::cerr << "An unexpected error occurred: " << e.what() << std::endl;
 			}
+			return dcl::application();
 		}
 
 		const std::string get_message_start() const {
@@ -469,7 +458,7 @@ namespace dcl {
 		 * @param end_point The API endpoint to make the request to.
 		 * @return The API response as a string (JSON).
 		 */
-		void restart_application(const dcl::discloud& discloud_token, const std::string& end_point) {
+		dcl::application restart_application(const dcl::discloud& discloud_token, const std::string& end_point) {
 			try {
 				dcl::discloud discloud(discloud_token);
 				_response = discloud.route(end_point, "PUT");
@@ -493,6 +482,7 @@ namespace dcl {
 			catch (const std::exception& e) {
 				std::cerr << "An unexpected error occurred: " << e.what() << std::endl;
 			}
+			return dcl::application();
 		}
 
 		const std::string get_message_restart() const {
@@ -511,7 +501,7 @@ namespace dcl {
 		 * @param end_point The API endpoint to make the request to.
 		 * @return The API response as a string (JSON).
 		 */
-		void stop_application(const dcl::discloud& discloud_token, const std::string& end_point) {
+		dcl::application stop_application(const dcl::discloud& discloud_token, const std::string& end_point) {
 			try {
 				dcl::discloud discloud(discloud_token);
 				_response = discloud.route(end_point, "PUT");
@@ -535,6 +525,7 @@ namespace dcl {
 			catch (const std::exception& e) {
 				std::cerr << "An unexpected error occurred: " << e.what() << std::endl;
 			}
+			return dcl::application();
 		}
 
 		const std::string get_message_stop() const {
@@ -553,7 +544,7 @@ namespace dcl {
 		 * @param end_point The API endpoint to make the request to.
 		 * @return The API response as a string (JSON).
 		 */
-		void delete_application(const dcl::discloud& discloud_token, const std::string& end_point) {
+		dcl::application delete_application(const dcl::discloud& discloud_token, const std::string& end_point) {
 			try {
 				dcl::discloud discloud(discloud_token);
 				_response = discloud.route(end_point, "DELETE");
@@ -577,6 +568,7 @@ namespace dcl {
 			catch (const std::exception& e) {
 				std::cerr << "An unexpected error occurred: " << e.what() << std::endl;
 			}
+			return dcl::application();
 		}
 		/**
 		* Get the response Json received of Discloud API.
@@ -591,7 +583,22 @@ namespace dcl {
 				throw std::runtime_error("JSON parse error: " + std::string(e.what()));
 			}
 		}
+		/**
+		* Get the message received for Discloud API.
+		* @return Message of the Discloud API.
+		*/
+		const std::string get_message() {
+			try {
+				json response_data = json::parse(response);
 
+
+				std::string message = response_data["message"];
+				return message;
+			}
+			catch (...) {
+				return "";
+			}
+		};
 	private:
 		std::string response;
 		std::string _response;
