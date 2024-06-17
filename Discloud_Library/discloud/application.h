@@ -441,17 +441,6 @@ namespace dcl {
 			}
 			return dcl::application();
 		}
-
-		const std::string get_message_start() const {
-			try {
-				json response_data = json::parse(_response);
-				std::string message = response_data["message"];
-				return message;
-			}
-			catch (...) {
-				return "";
-			}
-		}
 		/**
 		 * Make a request to the DisCloud API to put restart the application.
 		 * @param discloud_token The DisCloud API token.
@@ -484,17 +473,6 @@ namespace dcl {
 			}
 			return dcl::application();
 		}
-
-		const std::string get_message_restart() const {
-			try {
-				json response_data = json::parse(_response);
-				std::string message = response_data["message"];
-				return message;
-			}
-			catch (...) {
-				return "";
-			}
-		}
 		/**
 		 * Make a request to the DisCloud API to put stop the application.
 		 * @param discloud_token The DisCloud API token.
@@ -526,17 +504,6 @@ namespace dcl {
 				std::cerr << "An unexpected error occurred: " << e.what() << std::endl;
 			}
 			return dcl::application();
-		}
-
-		const std::string get_message_stop() const {
-			try {
-				json response_data = json::parse(_response);
-				std::string message = response_data["message"];
-				return message;
-			}
-			catch (...) {
-				return "";
-			}
 		}
 		/**
 		 * Make a request to the DisCloud API for to delete the application.
