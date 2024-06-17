@@ -42,7 +42,10 @@ namespace dcl {
                 std::cerr << "An unexpected error occurred: " << e.what() << std::endl;
             }
         }
-
+        /**
+        * Get the message received for Discloud API upload info.
+        * @return Message of the Discloud API.
+        */
         const std::string get_message() {
             try {
                 json response_data = json::parse(response);
