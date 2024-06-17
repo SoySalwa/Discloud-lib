@@ -16,7 +16,8 @@ namespace dcl {
          * Constructor for initializing DisCloud API access.
          * @param token A string representing the DisCloud API token.
          */
-        discloud(const std::string& token) : discloud_token(token) {}
+        explicit discloud(const std::string& token) : discloud_token(token) {};
+        discloud(const dcl::discloud& token) : discloud_token(token.discloud_token) {};
 
         /**
          * Function to add an endpoint in the discloud URL.
@@ -71,13 +72,12 @@ namespace dcl {
 
 
         /**
-         * Function to get DisCloud API Token in string format.
-         * @return A string representing the DisCloud API token.
+         * Function to get DisCloud API Token in dcl::discloud format.
+         * @return The DisCloud API token.
          */
-        std::string get_token() const {
-            return discloud_token;
+        dcl::discloud get_token() const {
+            return *this;
         }
-
     private:
         std::string discloud_token;
         std::string response;
