@@ -10,7 +10,7 @@
 namespace dcl {
     class user {
     public:
-        user() = default;
+        user() {};
 
         ~user() = default;
         // user(const user&) = delete;
@@ -20,7 +20,7 @@ namespace dcl {
           * @param discloud_token The DisCloud API token.
           * @param end_point The API endpoint make the request to.
           */
-        void get_user(const dcl::discloud& discloud_token, const std::string& end_point) {
+        dcl::user get_user(const dcl::discloud& discloud_token, const std::string& end_point) {
             try {
                 dcl::discloud discloud(discloud_token);
                 _response = discloud.route(end_point, "GET");
@@ -44,6 +44,7 @@ namespace dcl {
             catch (const std::exception& e) {
                 std::cerr << "An unexpected error occurred: " << e.what() << std::endl;
             }
+            return dcl::user();
         }
 
         /**
@@ -124,11 +125,19 @@ namespace dcl {
 
                 json domains = response_data["user"];
 
-                std::string subdomains = domains["subdomains"];
-                return subdomains;
+                std::vector<std::string> vt_subdomains = domains["subdomains"];
+                std::string st_subdomains;
+                for (const auto& custom : st_subdomains) {
+                    st_subdomains += custom + ", ";
+                }
+                if (!st_subdomains.empty()) {
+                    st_subdomains.pop_back();
+                    st_subdomains.pop_back();
+                }
+                return st_subdomains;
             }
             catch (...) {
-                return "";
+                return "[ ]";
             }
         }
         /**
@@ -141,11 +150,19 @@ namespace dcl {
 
                 json cdomains = response_data["user"];
 
-                std::string customDomains = cdomains["customdomains"];
-                return customDomains;
+                std::vector<std::string> vt_customDomains = cdomains["customdomains"];
+                std::string st_customDomains;
+                for (const auto& custom : st_customDomains) {
+                    st_customDomains += custom + ", ";
+                }
+                if (!st_customDomains.empty()) {
+                    st_customDomains.pop_back();
+                    st_customDomains.pop_back();
+                }
+                return st_customDomains;
             }
             catch (...) {
-                return "";
+                return "[ ]";
             }
         }
         /**
@@ -158,11 +175,19 @@ namespace dcl {
 
                 json user_apps = response_data["user"];
 
-                std::string apps = user_apps["apps"];
-                return apps;
+                std::vector<std::string> vt_apps = user_apps["apps"];
+                std::string st_apps;
+                for (const auto& app: vt_apps) {
+                    st_apps += app + ", ";
+               }
+                if (!st_apps.empty()) {
+                    st_apps.pop_back();
+                    st_apps.pop_back();
+                }
+                return st_apps;
             }
             catch (...) {
-                return "";
+                return "[]";
             }
         }
         /**
@@ -204,7 +229,7 @@ namespace dcl {
          * @param discloud_token The DisCloud API token.
          * @param end_point The API endpoint make the request to.
          */
-        void set_locale(const dcl::discloud& discloud_token, const std::string& end_point) {
+        dcl::user set_locale(const dcl::discloud& discloud_token, const std::string& end_point) {
             try {
                 dcl::discloud discloud(discloud_token);
                 _response = discloud.route(end_point, "PUT");
@@ -228,6 +253,7 @@ namespace dcl {
             catch (const std::exception& e) {
                 std::cerr << "An unexpected error occurred: " << e.what() << std::endl;
             }
+            return dcl::user();
         }
         /**
         * Get the language locale of the user.
