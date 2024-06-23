@@ -284,7 +284,7 @@ namespace dcl {
 
 				json disk = response_data["apps"];
 
-				std::string ssd = disk["memory"];
+				std::string ssd = disk["ssd"];
 				return ssd;
 			}
 			catch (...) {
@@ -483,6 +483,70 @@ namespace dcl {
 			try {
 				dcl::discloud discloud(discloud_token);
 				_response = discloud.route(end_point, "PUT");
+
+				if (!_response.empty()) {
+					try {
+						auto json_response = nlohmann::json::parse(_response);
+						set_response(_response);
+					}
+					catch (const nlohmann::json::parse_error& e) {
+						std::cerr << "JSON parse error: " << e.what() << std::endl;
+					}
+				}
+				else {
+					std::cerr << "The response is null or empty." << std::endl;
+				}
+			}
+			catch (const std::runtime_error& e) {
+				std::cerr << "An error occurred: " << e.what() << std::endl;
+			}
+			catch (const std::exception& e) {
+				std::cerr << "An unexpected error occurred: " << e.what() << std::endl;
+			}
+			return dcl::application();
+		}
+		/**
+		 * Make a request to the DisCloud API for change the ram of the application.
+		 * @param discloud_token The DisCloud API token.
+		 * @param end_point The API endpoint to make the request to.
+		 * @return The API response as a string (JSON).
+		 */
+		dcl::application ram_application(const dcl::discloud& discloud_token, const std::string& end_point) {
+			try {
+				dcl::discloud discloud(discloud_token);
+				_response = discloud.route(end_point, "PUT");
+
+				if (!_response.empty()) {
+					try {
+						auto json_response = nlohmann::json::parse(_response);
+						set_response(_response);
+					}
+					catch (const nlohmann::json::parse_error& e) {
+						std::cerr << "JSON parse error: " << e.what() << std::endl;
+					}
+				}
+				else {
+					std::cerr << "The response is null or empty." << std::endl;
+				}
+			}
+			catch (const std::runtime_error& e) {
+				std::cerr << "An error occurred: " << e.what() << std::endl;
+			}
+			catch (const std::exception& e) {
+				std::cerr << "An unexpected error occurred: " << e.what() << std::endl;
+			}
+			return dcl::application();
+		}
+		/**
+		 * Make a request to the DisCloud API to put commit file in the application.
+		 * @param discloud_token The DisCloud API token.
+		 * @param end_point The API endpoint to make the request to.
+		 * @return The API response as a string (JSON).
+		 */
+		dcl::application commit_application(const dcl::discloud& discloud_token, const std::string& end_point, const std::string file_path = "") {
+			try {
+				dcl::discloud discloud(discloud_token);
+				_response = discloud.route(end_point, "PUT", file_path);
 
 				if (!_response.empty()) {
 					try {
