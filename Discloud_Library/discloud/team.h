@@ -101,6 +101,14 @@ namespace dcl {
             dcl::discloud discloud(discloud_token);
             return discloud.route(end_point, "GET");
         }
+
+    private:
+        std::string response;
+        std::string _response;
+
+        void set_response(const std::string& new_response) {
+            response = new_response;
+        }
     };
 }
 #endif // !TEAM_H
