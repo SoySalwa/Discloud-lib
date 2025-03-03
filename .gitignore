@@ -18,7 +18,7 @@
 /Discloud_Library/*.cc
 
 # CMakes Builds
-./build/
+build/
 # Mono auto generated files
 mono_crash.*
 
