@@ -12,9 +12,13 @@
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
+
 # file cpps.
 /Discloud_Library/*.cpp
+/Discloud_Library/*.cc
 
+# CMakes Builds
+./build/
 # Mono auto generated files
 mono_crash.*
 
