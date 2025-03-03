@@ -2,7 +2,7 @@
 #ifndef USER_H
 #define USER_H
 
-#include "discloud/discloud.h"
+#include "discloud.h"
 #include <iostream>
 #include <functional>
 #include <string>
