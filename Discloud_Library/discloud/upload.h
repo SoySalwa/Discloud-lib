@@ -9,7 +9,7 @@
 
 namespace dcl {
 	class upload {
-	public: 
+	public:
         /**
          * Make a request to the DisCloud API to upload a file.
          * @param discloud_token The DisCloud API token.
@@ -71,6 +71,7 @@ namespace dcl {
                 throw std::runtime_error("JSON parse error: " + std::string(e.what()));
             }
         }
+
     private:
         std::string response;
         std::string _response;
