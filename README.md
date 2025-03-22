@@ -16,7 +16,8 @@ This project aims to streamline the process of making requests to the Discloud A
 
 - C++20 or later
 - CURL library
-
+- Nlohmann Json
+  
  if you haven't CURL installed, install it:
  - [CURL Install](https://curl.se/download.html)
  
