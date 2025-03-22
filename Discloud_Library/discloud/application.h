@@ -3,6 +3,7 @@
 #define APPLICATION_H
 
 #include "discloud.h"
+#include "discloudResponses.h"
 #include <cstdint>
 #include <iostream>
 #include <nlohmann/json.hpp>
@@ -10,634 +11,295 @@
 using json = nlohmann::json;
 
 namespace dcl {
-	class application {
-	public:
-		application() {};
-		/**
-		 * Make a request to the DisCloud API to obtain app data.
-		 * @param discloud_token The DisCloud API token.
-		 * @param end_point The API endpoint to make the request to.
-		 * @return The API response as a string (JSON).
-		 */
+class application {
+public:
+  application() {};
+  /**
+   * Make a request to the DisCloud API to obtain app data.
+   * @param discloud_token The DisCloud API token.
+   * @param end_point The API endpoint to make the request to.
+   * @return The API response as a string (JSON).
+   */
 
-		dcl::application get_application(const dcl::discloud& discloud_token, const std::string& end_point) {
-			try {
-				dcl::discloud discloud(discloud_token);
-				_response = discloud.route(end_point, "GET");
+  dcl::application get_application(const dcl::discloud &discloud_token,
+                                   const std::string &end_point) {
 
-				if (!_response.empty()) {
-					try {
-						auto json_response = nlohmann::json::parse(_response);
-						set_response(_response);
-					}
-					catch (const nlohmann::json::parse_error& e) {
-						std::cerr << "JSON parse error: " << e.what() << std::endl;
-					}
-				}
-				else {
-					std::cerr << "The response is null or empty." << std::endl;
-				}
-			}
-			catch (const std::runtime_error& e) {
-				std::cerr << "An error occurred: " << e.what() << std::endl;
-			}
-			catch (const std::exception& e) {
-				std::cerr << "An unexpected error occurred: " << e.what() << std::endl;
-			}
-			return dcl::application();
-		}
-		/**
-		  It's the id of the application.
-		  * @return Id application.*/
-		const std::string id() const {
-			try {
-				json response_data = json::parse(response);
-		
-				json apps = response_data["apps"];
-				
-				std::string id = apps["id"];
-				return id;
-			}
-			catch (...) {
-				return "";
-			}
-		}
-		/**
-		* It's the avatar of the application.
-		* @return A string value as the avatar of application.
-		*/
-		const std::string avatarURL() {
-			try {
-				json response_data = json::parse(response);
-				json apps = response_data["apps"];
-				std::string avatar_url = apps["avatarURL"];
+    discloud_responses.fetch_api(discloud_token, end_point, "GET");
+    return *this;
+  }
 
-				return avatar_url;
-			}
-			catch (...) {
-				return "";
-			}
-		}
-		/**
-		  It's the name of the application.
-		  * @return Name application.*/
-		const std::string name() const {
-			try {
-				json response_data = json::parse(response);
-				json apps = response_data["apps"];
-				
-				std::string name = apps["name"];
-				return name;
-			}
-			catch (...) {
-				return "";
-			}
-		}
-		/**
-		 * It's a boolean value, if application is online return 1 or exception 0.	
-		 * @return Boolean Value.
-		 */ 
-		const bool is_online() const {
-			try {
-				json response_data = json::parse(response);
-				json apps = response_data["apps"];
+  /**
+   * Make a request to the DisCloud API to obtain status data application.
+   * @param discloud_token The DisCloud API token.
+   * @param end_point The API endpoint to make the request to.
+   * @return The API response as a string (JSON).
+   */
+  dcl::application get_status_application(const dcl::discloud &discloud_token,
+                                          const std::string &end_point) {
+    discloud_responses.fetch_api(discloud_token, end_point, "GET");
+    return *this;
+  }
 
-				bool online = apps["online"];
-				return online;
-			}
-			catch (...) {
-				return "";
-			}
-		}
-		/**
-		 * It's a boolean value, if application isn't ram killed return 0 or exception 1.
-		 * @return Boolean Value.
-		 */
-		const bool ram_killed() const {
-			try {
-				json response_data = json::parse(response);
-				json apps = response_data["apps"];
+  /**
+   * Make a request to the DisCloud API to obtain logs data application.
+   * @param discloud_token The DisCloud API token.
+   * @param end_point The API endpoint to make the request to.
+   * @return The API response as a string (JSON).
+   */
+  dcl::application get_logs_application(const dcl::discloud &discloud_token,
+                                        const std::string &end_point) {
+    discloud_responses.fetch_api(discloud_token, end_point, "GET");
+    return *this;
+  }
+  /**
+   * Make a request to the DisCloud API to obtain backup data application.
+   * @param discloud_token The DisCloud API token.
+   * @param end_point The API endpoint make the request to.
+   * @return The API response as a string (JSON).
+   */
+  dcl::application get_backup_application(const dcl::discloud &discloud_token,
+                                          const std::string &end_point) {
+    discloud_responses.fetch_api(discloud_token, end_point, "GET");
+    return *this;
+  }
 
-				bool ram_killed = apps["ramKilled"];
-				return ram_killed;
-			}
-			catch (...) {
-				return "";
-			}
-		}
-		/**
-		 * It's a int value, it returns the ram comsumed by the application.
-		 * @return Integer value.
-		 */
-		const int ram() const {
-			try {
-				json response_data = json::parse(response);
-				json apps = response_data["apps"];
+  /**
+   * Make a request to the DisCloud API to put start the application.
+   * @param discloud_token The DisCloud API token.
+   * @param end_point The API endpoint make the request to.
+   * @return The API response as a string (JSON).
+   */
+  dcl::application start_application(const dcl::discloud &discloud_token,
+                                     const std::string &end_point) {
+    discloud_responses.fetch_api(discloud_token, end_point, "PUT");
+    return *this;
+  }
+  /**
+   * Make a request to the DisCloud API to put restart the application.
+   * @param discloud_token The DisCloud API token.
+   * @param end_point The API endpoint to make the request to.
+   * @return The API response as a string (JSON).
+   */
+  dcl::application restart_application(const dcl::discloud &discloud_token,
+                                       const std::string &end_point) {
+    discloud_responses.fetch_api(discloud_token, end_point, "PUT");
+    return *this;
+  }
+  /**
+   * Make a request to the DisCloud API to put stop the application.
+   * @param discloud_token The DisCloud API token.
+   * @param end_point The API endpoint to make the request to.
+   * @return The API response as a string (JSON).
+   */
+  dcl::application stop_application(const dcl::discloud &discloud_token,
+                                    const std::string &end_point) {
+    discloud_responses.fetch_api(discloud_token, end_point, "PUT");
+    return *this;
+  }
+  /**
+   * Make a request to the DisCloud API for change the ram of the application.
+   * @param discloud_token The DisCloud API token.
+   * @param end_point The API endpoint to make the request to.
+   * @return The API response as a string (JSON).
+   */
+  dcl::application ram_application(const dcl::discloud &discloud_token,
+                                   const std::string &end_point) {
+    discloud_responses.fetch_api(discloud_token, end_point, "PUT");
+    return *this;
+  }
+  /**
+   * Make a request to the DisCloud API to put commit file in the application.
+   * @param discloud_token The DisCloud API token.
+   * @param end_point The API endpoint to make the request to.
+   * @return The API response as a string (JSON).
+   */
+  dcl::application commit_application(const dcl::discloud &discloud_token,
+                                      const std::string &end_point,
+                                      const std::string file_path = "") {
+    discloud_responses.fetch_api(discloud_token, end_point, "PUT");
+    return *this;
+  }
+  /**
+   * Make a request to the DisCloud API for to delete the application.
+   * @param discloud_token The DisCloud API token.
+   * @param end_point The API endpoint to make the request to.
+   * @return The API response as a string (JSON).
+   */
+  dcl::application delete_application(const dcl::discloud &discloud_token,
+                                      const std::string &end_point) {
+    discloud_responses.fetch_api(discloud_token, end_point, "DELETE");
+    return *this;
+  }
+  /**
+   * Get the message received for Discloud API.
+   * @return Message of the Discloud API.
+   */
+  const std::string get_message() {
+    return discloud_responses.get_json<std::string>("message");
+  }
+  /**
+   * Gets the URL with the files of the APP.
+   * @return The url with the files.
+   */
+  std::string get_backup() {
+    return discloud_responses.get_json<std::string>("message");
+  }
 
-				int ram = apps["ram"];
-				return ram;
-			}
-			catch (...) {
-				return 0;
-			}
-		}
-		/**
-		 * It's a string value, it returns the main file of the application.
-		 * @return The name application file as value.
-		 */
-		const std::string file_name() const {
-			try {
-				json response_data = json::parse(response);
-				json apps = response_data["apps"];
+  /**
+   *
+   * Get the logs big from the API
+   * @return A json as strings.
+   * */
+  std::string logs_big() const {
+    return discloud_responses.get_json<std::string>("apps/terminal/big");
+  }
+  /**
+   *
+   * Get the logs small from the API
+   * @return A json as strings.
+   * */
+  std::string logs_small() const {
+    return discloud_responses.get_json<std::string>("apps/terminal/small");
+  }
+  /**
+   * It's a value of type string, get the id of the application.
+   * @return A value of type string with the id of the application.
+   */
+  std::string status_id() const {
+    return discloud_responses.get_json<std::string>("apps/id");
+  }
 
-				std::string file = apps["mainFile"];
-				return file;
-			}
-			catch (...) {
-				return "";
-			}
-		}
-		/**
-		 * It's a string value, it returns the language programmation used by the application.
-		 * @return The name language programmation used by application.
-		 */
-		const std::string lang() const {
-			try {
-				json response_data = json::parse(response);
-				json apps = response_data["apps"];
+  /**
+   * It's a value of type string, get the status of the application.
+   * @return A value of type string with the status application.
+   */
+  std::string container() const {
+    return discloud_responses.get_json<std::string>("apps/container");
+  }
+  /**
+   * It's a value of type string, get the cpu of the application.
+   * @return A value of type string with the cpu of the application.
+   */
+  std::string cpu() const {
+    return discloud_responses.get_json<std::string>("apps/cpu");
+  }
+  /**
+   * It's a value of type string, get the memory of the application.
+   * @return A value of type string with the memory of the application.
+   */
+  std::string memory() const {
+    return discloud_responses.get_json<std::string>("apps/memory");
+  }
+  /**
+   * It's a value of type string, get the disk of the application.
+   * @return A value of type string with the disk of the application.
+   */
+  std::string disk() const {
+    return discloud_responses.get_json<std::string>("apps/ssd");
+  }
 
-				std::string lang = apps["lang"];
-				return lang;
-			}
-			catch (...) {
-				return "";
-			}
-		}
-		/**
-		 * Make a request to the DisCloud API to obtain status data application.
-		 * @param discloud_token The DisCloud API token.
-		 * @param end_point The API endpoint to make the request to.
-		 * @return The API response as a string (JSON).
-		 */
-		dcl::application get_status_application(const dcl::discloud& discloud_token, const std::string& end_point) {
-			try {
-				dcl::discloud discloud(discloud_token);
-				_response = discloud.route(end_point, "GET");
+  /**
+   * It's a value of type string, get the uptime of the application.
+   * @return A value of type string with the uptime of the application.
+   */
+  std::string uptime() const {
+    return discloud_responses.get_json<std::string>("apps/last_restart");
+  }
+  /**
+   *
+   * It's the id of the application.
+   * @return Id application.*/
+  std::string id() const {
+    return discloud_responses.get_json<std::string>("apps/id");
+  }
+  /**
+   * It's the avatar of the application.
+   * @return A string value as the avatar of application.
+   */
+  std::string avatarURL() {
+    return discloud_responses.get_json<std::string>("apps/avatarURL");
+  }
+  /**
+    It's the name of the application.
+    * @return Name application.*/
+  std::string name() const {
+    return discloud_responses.get_json<std::string>("apps/name");
+  }
+  /**
+   * It's a boolean value, if application is online return 1 or exception 0.
+   * @return Boolean Value.
+   */
+  bool is_online() const {
+    return discloud_responses.get_json<bool>("apps/online");
+  }
+  /**
+   * It's a boolean value, if application isn't ram killed return 0 or
+   * exception 1.
+   * @return Boolean Value.
+   */
+  bool ram_killed() const {
+    return discloud_responses.get_json<bool>("apps/ramKilled");
+  }
+  /**
+   * It's a int value, it returns the ram comsumed by the application.
+   * @return Integer value.
+   */
+  int ram() const { return discloud_responses.get_json<int>("apps/ram"); }
+  /**
+   * It's a string value, it returns the main file of the application.
+   * @return The name application file as value.
+   */
+  std::string file_name() const {
+    return discloud_responses.get_json<std::string>("apps/mainFile");
+  }
+  /**
+   * It's a string value, it returns the language programmation used by the
+   * application.
+   * @return The name language programmation used by application.
+   */
+  std::string lang() const {
+    return discloud_responses.get_json<std::string>("apps/lang");
+  }
 
-				if (!_response.empty()) {
-					try {
-						auto json_response = nlohmann::json::parse(_response);
-						set_response(_response);
-					}
-					catch (const nlohmann::json::parse_error& e) {
-						std::cerr << "JSON parse error: " << e.what() << std::endl;
-					}
-				}
-				else {
-					std::cerr << "The response is null or empty." << std::endl;
-				}
-			}
-			catch (const std::runtime_error& e) {
-				std::cerr << "An error occurred: " << e.what() << std::endl;
-			}
-			catch (const std::exception& e) {
-				std::cerr << "An unexpected error occurred: " << e.what() << std::endl;
-			}
-			return dcl::application();
-		}
-		/**
-		 * It's a value of type string, get the id of the application.
-		 * @return A value of type string with the id of the application.
-		 */
-		const std::string status_id() const {
-			try {
-				json response_data = json::parse(response);
+private:
+  std::string response;
+  std::string _response;
+  json _parsed_response;
+  dcl::DiscloudResponses discloud_responses;
 
-				json apps = response_data["apps"];
+  void set_response(const std::string &new_response) {
+    response = new_response;
+  }
+  void parse_response() {
+    if (!_response.empty()) {
+      try {
+        _parsed_response = json::parse(_response);
+      } catch (const json::parse_error &e) {
+        std::cerr << "JSON parse error: " << e.what() << std::endl;
+      }
+    }
+  }
 
-				std::string id = apps["id"];
-				return id;
-			}
-			catch (...) {
-				return "";
-			}
-		}
-
-		/**
-		 * It's a value of type string, get the status of the application.
-		 * @return A value of type string with the status application.
-		 */
-		const std::string container() const {
-			try {
-				json response_data = json::parse(response);
-
-				json container = response_data["apps"];
-
-				std::string online = container["container"];
-				return online;
-			}
-			catch (...) {
-				return "";
-			}
-		}
-		/**
-		 * It's a value of type string, get the cpu of the application.
-		 * @return A value of type string with the cpu of the application.
-		 */
-		const std::string cpu() const {
-			try {
-				json response_data = json::parse(response);
-
-				json cpu = response_data["apps"];
-
-				std::string cpuTo = cpu["cpu"];
-				return cpuTo;
-			}
-			catch (...) {
-				return "";
-			}
-		}
-		/**
-		 * It's a value of type string, get the memory of the application.
-		 * @return A value of type string with the memory of the application.
-		 */
-		const std::string memory() const {
-			try {
-				json response_data = json::parse(response);
-
-				json memory = response_data["apps"];
-
-				std::string memory_ram = memory["memory"];
-				return memory_ram;
-			}
-			catch (...) {
-				return "";
-			}
-		}
-		/**
-		 * It's a value of type string, get the disk of the application.
-		 * @return A value of type string with the disk of the application.
-		 */
-		const std::string disk() const {
-			try {
-				json response_data = json::parse(response);
-
-				json disk = response_data["apps"];
-
-				std::string ssd = disk["ssd"];
-				return ssd;
-			}
-			catch (...) {
-				return "";
-			}
-		}
-
-		/**
-		 * It's a value of type string, get the uptime of the application.
-		 * @return A value of type string with the uptime of the application.
-		 */
-		const std::string uptime() const {
-			try {
-				json response_data = json::parse(response);
-				json time = response_data["apps"];
-				std::string uptime = time["last_restart"];
-				return uptime;
-			}
-			catch (...) {
-				return "";
-			}
-		}
-		/**
-		 * Make a request to the DisCloud API to obtain logs data application.
-		 * @param discloud_token The DisCloud API token.
-		 * @param end_point The API endpoint to make the request to.
-		 * @return The API response as a string (JSON).
-		 */
-		dcl::application get_logs_application(const dcl::discloud& discloud_token, const std::string& end_point) {
-			try {
-				dcl::discloud discloud(discloud_token);
-				_response = discloud.route(end_point, "GET");
-
-				if (!_response.empty()) {
-					try {
-						auto json_response = nlohmann::json::parse(_response);
-						set_response(_response);
-					}
-					catch (const nlohmann::json::parse_error& e) {
-						std::cerr << "JSON parse error: " << e.what() << std::endl;
-					}
-				}
-				else {
-					std::cerr << "The response is null or empty." << std::endl;
-				}
-			}
-			catch (const std::runtime_error& e) {
-				std::cerr << "An error occurred: " << e.what() << std::endl;
-			}
-			catch (const std::exception& e) {
-				std::cerr << "An unexpected error occurred: " << e.what() << std::endl;
-			}
-			return dcl::application();
-		}
-
-		const std::string logs_big() const {
-			try {
-				json response_data = json::parse(_response);
-				json terminal = response_data["apps"]["terminal"];
-				std::string logs_big = terminal["big"];
-				return logs_big;
-			}
-			catch (...) {
-				return "";
-			}
-		}
-
-		const std::string logs_small() const {
-			try {
-				json response_data = json::parse(_response);
-				json terminal = response_data["apps"]["terminal"];
-				std::string logs_small = terminal["small"];
-				return logs_small;
-			}
-			catch (...) {
-				return "";
-			}
-		}
-		/**
-         * Make a request to the DisCloud API to obtain backup data application.
-         * @param discloud_token The DisCloud API token.
-         * @param end_point The API endpoint make the request to.
-         * @return The API response as a string (JSON).
-         */
-		dcl::application get_backup_application(const dcl::discloud& discloud_token, const std::string& end_point) {
-			try {
-				dcl::discloud discloud(discloud_token);
-				_response = discloud.route(end_point, "GET");
-
-				if (!_response.empty()) {
-					try {
-						auto json_response = nlohmann::json::parse(_response);
-						set_response(_response);
-					}
-					catch (const nlohmann::json::parse_error& e) {
-						std::cerr << "JSON parse error: " << e.what() << std::endl;
-					}
-				}
-				else {
-					std::cerr << "The response is null or empty." << std::endl;
-				}
-			}
-			catch (const std::runtime_error& e) {
-				std::cerr << "An error occurred: " << e.what() << std::endl;
-			}
-			catch (const std::exception& e) {
-				std::cerr << "An unexpected error occurred: " << e.what() << std::endl;
-			}
-			return dcl::application();
-		}
-		/**
-		* Gets the URL with the files of the APP.
-		* @return The url with the files.
-		*/
-		const std::string get_backup() {
-			try {
-				json response_data = json::parse(response);
-				std::string backup = response_data["backups"]["url"];
-				return backup;
-			}
-			catch (...) {
-				return "";
-			}
-		}
-		/**
-         * Make a request to the DisCloud API to put start the application.
-         * @param discloud_token The DisCloud API token.
-         * @param end_point The API endpoint make the request to.
-         * @return The API response as a string (JSON).
-         */
-		dcl::application start_application(const dcl::discloud& discloud_token, const std::string& end_point) {
-			try {
-				dcl::discloud discloud(discloud_token);
-				_response = discloud.route(end_point, "PUT");
-
-				if (!_response.empty()) {
-					try {
-						auto json_response = nlohmann::json::parse(_response);
-						set_response(_response);
-					}
-					catch (const nlohmann::json::parse_error& e) {
-						std::cerr << "JSON parse error: " << e.what() << std::endl;
-					}
-				}
-				else {
-					std::cerr << "The response is null or empty." << std::endl;
-				}
-			}
-			catch (const std::runtime_error& e) {
-				std::cerr << "An error occurred: " << e.what() << std::endl;
-			}
-			catch (const std::exception& e) {
-				std::cerr << "An unexpected error occurred: " << e.what() << std::endl;
-			}
-			return dcl::application();
-		}
-		/**
-		 * Make a request to the DisCloud API to put restart the application.
-		 * @param discloud_token The DisCloud API token.
-		 * @param end_point The API endpoint to make the request to.
-		 * @return The API response as a string (JSON).
-		 */
-		dcl::application restart_application(const dcl::discloud& discloud_token, const std::string& end_point) {
-			try {
-				dcl::discloud discloud(discloud_token);
-				_response = discloud.route(end_point, "PUT");
-
-				if (!_response.empty()) {
-					try {
-						auto json_response = nlohmann::json::parse(_response);
-						set_response(_response);
-					}
-					catch (const nlohmann::json::parse_error& e) {
-						std::cerr << "JSON parse error: " << e.what() << std::endl;
-					}
-				}
-				else {
-					std::cerr << "The response is null or empty." << std::endl;
-				}
-			}
-			catch (const std::runtime_error& e) {
-				std::cerr << "An error occurred: " << e.what() << std::endl;
-			}
-			catch (const std::exception& e) {
-				std::cerr << "An unexpected error occurred: " << e.what() << std::endl;
-			}
-			return dcl::application();
-		}
-		/**
-		 * Make a request to the DisCloud API to put stop the application.
-		 * @param discloud_token The DisCloud API token.
-		 * @param end_point The API endpoint to make the request to.
-		 * @return The API response as a string (JSON).
-		 */
-		dcl::application stop_application(const dcl::discloud& discloud_token, const std::string& end_point) {
-			try {
-				dcl::discloud discloud(discloud_token);
-				_response = discloud.route(end_point, "PUT");
-
-				if (!_response.empty()) {
-					try {
-						auto json_response = nlohmann::json::parse(_response);
-						set_response(_response);
-					}
-					catch (const nlohmann::json::parse_error& e) {
-						std::cerr << "JSON parse error: " << e.what() << std::endl;
-					}
-				}
-				else {
-					std::cerr << "The response is null or empty." << std::endl;
-				}
-			}
-			catch (const std::runtime_error& e) {
-				std::cerr << "An error occurred: " << e.what() << std::endl;
-			}
-			catch (const std::exception& e) {
-				std::cerr << "An unexpected error occurred: " << e.what() << std::endl;
-			}
-			return dcl::application();
-		}
-		/**
-		 * Make a request to the DisCloud API for change the ram of the application.
-		 * @param discloud_token The DisCloud API token.
-		 * @param end_point The API endpoint to make the request to.
-		 * @return The API response as a string (JSON).
-		 */
-		dcl::application ram_application(const dcl::discloud& discloud_token, const std::string& end_point) {
-			try {
-				dcl::discloud discloud(discloud_token);
-				_response = discloud.route(end_point, "PUT");
-
-				if (!_response.empty()) {
-					try {
-						auto json_response = nlohmann::json::parse(_response);
-						set_response(_response);
-					}
-					catch (const nlohmann::json::parse_error& e) {
-						std::cerr << "JSON parse error: " << e.what() << std::endl;
-					}
-				}
-				else {
-					std::cerr << "The response is null or empty." << std::endl;
-				}
-			}
-			catch (const std::runtime_error& e) {
-				std::cerr << "An error occurred: " << e.what() << std::endl;
-			}
-			catch (const std::exception& e) {
-				std::cerr << "An unexpected error occurred: " << e.what() << std::endl;
-			}
-			return dcl::application();
-		}
-		/**
-		 * Make a request to the DisCloud API to put commit file in the application.
-		 * @param discloud_token The DisCloud API token.
-		 * @param end_point The API endpoint to make the request to.
-		 * @return The API response as a string (JSON).
-		 */
-		dcl::application commit_application(const dcl::discloud& discloud_token, const std::string& end_point, const std::string file_path = "") {
-			try {
-				dcl::discloud discloud(discloud_token);
-				_response = discloud.route(end_point, "PUT", file_path);
-
-				if (!_response.empty()) {
-					try {
-						auto json_response = nlohmann::json::parse(_response);
-						set_response(_response);
-					}
-					catch (const nlohmann::json::parse_error& e) {
-						std::cerr << "JSON parse error: " << e.what() << std::endl;
-					}
-				}
-				else {
-					std::cerr << "The response is null or empty." << std::endl;
-				}
-			}
-			catch (const std::runtime_error& e) {
-				std::cerr << "An error occurred: " << e.what() << std::endl;
-			}
-			catch (const std::exception& e) {
-				std::cerr << "An unexpected error occurred: " << e.what() << std::endl;
-			}
-			return dcl::application();
-		}
-		/**
-		 * Make a request to the DisCloud API for to delete the application.
-		 * @param discloud_token The DisCloud API token.
-		 * @param end_point The API endpoint to make the request to.
-		 * @return The API response as a string (JSON).
-		 */
-		dcl::application delete_application(const dcl::discloud& discloud_token, const std::string& end_point) {
-			try {
-				dcl::discloud discloud(discloud_token);
-				_response = discloud.route(end_point, "DELETE");
-
-				if (!_response.empty()) {
-					try {
-						auto json_response = nlohmann::json::parse(_response);
-						set_response(_response);
-					}
-					catch (const nlohmann::json::parse_error& e) {
-						std::cerr << "JSON parse error: " << e.what() << std::endl;
-					}
-				}
-				else {
-					std::cerr << "The response is null or empty." << std::endl;
-				}
-			}
-			catch (const std::runtime_error& e) {
-				std::cerr << "An error occurred: " << e.what() << std::endl;
-			}
-			catch (const std::exception& e) {
-				std::cerr << "An unexpected error occurred: " << e.what() << std::endl;
-			}
-			return dcl::application();
-		}
-		/**
-		* Get the response Json received of Discloud API.
-		* @return The response json, the response already parsed.
-		*/
-		std::string get_json() const {
-			try {
-				json response_data = json::parse(response);
-				return "Discloud Response: " + response_data.dump(4);
-			}
-			catch (const json::parse_error& e) {
-				throw std::runtime_error("JSON parse error: " + std::string(e.what()));
-			}
-		}
-		/**
-		* Get the message received for Discloud API.
-		* @return Message of the Discloud API.
-		*/
-		const std::string get_message() {
-			try {
-				json response_data = json::parse(response);
-
-
-				std::string message = response_data["message"];
-				return message;
-			}
-			catch (...) {
-				return "";
-			}
-		};
-	private:
-		std::string response;
-		std::string _response;
-
-		void set_response(const std::string& new_response) {
-			response = new_response;
-		}
-	};
-}
-
+protected:
+  void fetch_api(const dcl::discloud &discloud_token,
+                 const std::string &end_point, const std::string &method) {
+    try {
+      dcl::discloud discloud(discloud_token);
+      _response = discloud.route(end_point, method);
+      parse_response();
+    } catch (const std::exception &e) {
+      std::cerr << "Error fetching data: " << e.what() << std::endl;
+    }
+  }
+  template <typename T>
+  T get_json(const std::string &json_path, T default_value = T()) const {
+    try {
+      return _parsed_response.value(json::json_pointer("/" + json_path),
+                                    default_value);
+    } catch (...) {
+      return default_value;
+    }
+  }
+}; // class application
+}; // namespace dcl
 #endif // !APPLICATION_H
