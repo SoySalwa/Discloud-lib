@@ -13,7 +13,7 @@ FetchContent_MakeAvailable(nlohmann_json)
 
 set(PROJECT_SOURCES 
 	Discloud_Library/discloud/discloud.h
-	# Discloud_Library/discloud/discloud.h
+	Discloud_Library/discloud/discloudResponses.h
 	Discloud_Library/discloud/application.h
 	Discloud_Library/discloud/upload.h
 	Discloud_Library/discloud/user.h
