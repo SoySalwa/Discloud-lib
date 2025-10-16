@@ -14,8 +14,8 @@
 *.userprefs
 
 # file cpps.
-/Discloud_Library/*.cpp
-/Discloud_Library/*.cc
+#/Discloud_Library/src/*.cpp
+#/Discloud_Library/src/.cc
 
 # CMakes Builds
 build/
