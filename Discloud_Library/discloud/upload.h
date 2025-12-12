@@ -10,19 +10,18 @@
 
 namespace dcl
 {
-  class upload
+  class upload : public DiscloudResponses
   {
   public:
     /**
      * Make a request to the DisCloud API to upload a file.
      * @param discloud_token The DisCloud API token.
      * @param file_path, it's the file to upload.
-     * @return The API response as a string (JSON).
      */
     dcl::upload send_upload(const dcl::discloud &discloud_token,
                             const std::string &file_path = "")
     {
-      discloud_responses.fetch_api(discloud_token, "/upload", "POST", file_path);
+      this->fetch_api(discloud_token, std::format("/upload"), dcl::Method::POST, file_path);
       return *this;
     }
     /**
@@ -31,11 +30,8 @@ namespace dcl
      */
     std::string get_message() const
     {
-      return discloud_responses.get_json<std::string>("message");
+      return this->get_json<std::string>("message");
     };
-
-  private:
-    dcl::DiscloudResponses discloud_responses;
   };
-} // namespace dcl
+}; // namespace dcl
 #endif // !UPLOAD_H

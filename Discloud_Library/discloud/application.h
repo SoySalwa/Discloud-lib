@@ -7,12 +7,13 @@
 #include <cstdint>
 #include <iostream>
 #include <nlohmann/json.hpp>
+#include <format>
 
 using json = nlohmann::json;
 
 namespace dcl
 {
-  class application
+  class application : public DiscloudResponses
   {
   public:
     application() = default;
@@ -20,14 +21,13 @@ namespace dcl
     /**
      * Make a request to the DisCloud API to obtain app data.
      * @param discloud_token The DisCloud API token.
-     * @param app_id The API endpoint to make the request to.
-     * @return The API response as a string (JSON).
+     * @param app_id Your application ID.
      */
     dcl::application get_application(const dcl::discloud &discloud_token,
                                      const std::string &app_id)
     {
 
-      discloud_responses.fetch_api(discloud_token, "/app/" + app_id, "GET");
+      this->fetch_api(discloud_token, std::format("/app/{}", app_id), dcl::Method::GET);
       return *this;
     }
 
@@ -35,12 +35,11 @@ namespace dcl
      * Make a request to the DisCloud API to obtain status data application.
      * @param discloud_token The DisCloud API token.
      * @param app_id Your application ID.
-     * @return The API response as a string (JSON).
      */
     dcl::application get_status_application(const dcl::discloud &discloud_token,
                                             const std::string &app_id)
     {
-      discloud_responses.fetch_api(discloud_token, "/app/" + app_id + "/status", "GET");
+      this->fetch_api(discloud_token, std::format("/app/{}/status", app_id), dcl::Method::GET);
       return *this;
     }
 
@@ -48,24 +47,22 @@ namespace dcl
      * Make a request to the DisCloud API to obtain logs data application.
      * @param discloud_token The DisCloud API token.
      * @param app_id Your application ID.
-     * @return The API response as a string (JSON).
      */
     dcl::application get_logs_application(const dcl::discloud &discloud_token,
                                           const std::string &app_id)
     {
-      discloud_responses.fetch_api(discloud_token, "/app/" + app_id + "/logs", "GET");
+      this->fetch_api(discloud_token, std::format("/app/{}/logs", app_id), dcl::Method::GET);
       return *this;
     }
     /**
      * Make a request to the DisCloud API to obtain backup data application.
      * @param discloud_token The DisCloud API token.
      * @param app_id Your application ID.
-     * @return The API response as a string (JSON).
      */
     dcl::application get_backup_application(const dcl::discloud &discloud_token,
                                             const std::string &app_id)
     {
-      discloud_responses.fetch_api(discloud_token, "/app/" + app_id + "/backup", "GET");
+      this->fetch_api(discloud_token, std::format("/app/{}/backup", app_id), dcl::Method::GET);
       return *this;
     }
 
@@ -73,73 +70,67 @@ namespace dcl
      * Make a request to the DisCloud API to put start the application.
      * @param discloud_token The DisCloud API token.
      * @param app_id Your application ID.
-     * @return The API response as a string (JSON).
      */
     dcl::application start_application(const dcl::discloud &discloud_token,
                                        const std::string &app_id)
     {
-      discloud_responses.fetch_api(discloud_token, "/app/" + app_id + "/start", "PUT");
+      this->fetch_api(discloud_token, std::format("/app/{}/start", app_id), dcl::Method::PUT);
       return *this;
     }
     /**
      * Make a request to the DisCloud API to put restart the application.
      * @param discloud_token The DisCloud API token.
      * @param app_id Your application ID.
-     * @return The API response as a string (JSON).
      */
     dcl::application restart_application(const dcl::discloud &discloud_token,
                                          const std::string &app_id)
     {
-      discloud_responses.fetch_api(discloud_token, "/app/" + app_id + "/restart", "PUT");
+      this->fetch_api(discloud_token, std::format("/app/{}/restart", app_id), dcl::Method::PUT);
       return *this;
     }
     /**
      * Make a request to the DisCloud API to put stop the application.
      * @param discloud_token The DisCloud API token.
      * @param app_id Your application ID.
-     * @return The API response as a string (JSON).
      */
     dcl::application stop_application(const dcl::discloud &discloud_token,
                                       const std::string &app_id)
     {
-      discloud_responses.fetch_api(discloud_token, "/app/" + app_id + "/stop", "PUT");
+      this->fetch_api(discloud_token, std::format("/app/{}/stop", app_id), dcl::Method::PUT);
       return *this;
     }
     /**
      * Make a request to the DisCloud API for change the ram of the application.
      * @param discloud_token The DisCloud API token.
      * @param app_id Your application ID.
-     * @return The API response as a string (JSON).
      */
     dcl::application ram_application(const dcl::discloud &discloud_token,
                                      const std::string &app_id)
     {
-      discloud_responses.fetch_api(discloud_token, "/app/" + app_id + "/ram", "PUT");
+      this->fetch_api(discloud_token, std::format("/app/{}/ram", app_id), dcl::Method::PUT);
       return *this;
     }
     /**
      * Make a request to the DisCloud API to put commit file in the application.
      * @param discloud_token The DisCloud API token.
      * @param app_id Your application ID.
-     * @return The API response as a string (JSON).
      */
     dcl::application commit_application(const dcl::discloud &discloud_token,
                                         const std::string &app_id,
                                         const std::string &file_path = "")
     {
-      discloud_responses.fetch_api(discloud_token, "/app/" + app_id + "/commit", "PUT", file_path);
+      this->fetch_api(discloud_token, std::format("/app/{}/commit", app_id), dcl::Method::PUT, file_path);
       return *this;
     }
     /**
      * Make a request to the DisCloud API for to delete the application.
      * @param discloud_token The DisCloud API token.
      * @param app_id Your application ID.
-     * @return The API response as a string (JSON).
      */
     dcl::application delete_application(const dcl::discloud &discloud_token,
                                         const std::string &app_id)
     {
-      discloud_responses.fetch_api(discloud_token, "/app/" + app_id + "/delete", "DELETE");
+      this->fetch_api(discloud_token, std::format("/app/{}/delete", app_id), dcl::Method::DELETE);
       return *this;
     }
     /**
@@ -148,7 +139,7 @@ namespace dcl
      */
     std::string get_message() const
     {
-      return discloud_responses.get_json<std::string>("message");
+      return this->get_json<std::string>("message");
     }
     /**
      * Gets the URL with the files of the APP.
@@ -156,7 +147,7 @@ namespace dcl
      */
     std::string get_backup() const
     {
-      return discloud_responses.get_json<std::string>("backups/url");
+      return this->get_json<std::string>("backups/url");
     }
 
     /**
@@ -166,7 +157,7 @@ namespace dcl
      * */
     std::string logs_big() const
     {
-      return discloud_responses.get_json<std::string>("apps/terminal/big");
+      return this->get_json<std::string>("apps/terminal/big");
     }
     /**
      *
@@ -175,7 +166,7 @@ namespace dcl
      * */
     std::string logs_small() const
     {
-      return discloud_responses.get_json<std::string>("apps/terminal/small");
+      return this->get_json<std::string>("apps/terminal/small");
     }
     /**
      * It's a value of type string, get the status of the application.
@@ -183,7 +174,7 @@ namespace dcl
      */
     std::string get_status() const
     {
-      return discloud_responses.get_json<std::string>("apps/container");
+      return this->get_json<std::string>("apps/container");
     }
     /**
      * It's a value of type string, get the cpu of the application.
@@ -191,7 +182,7 @@ namespace dcl
      */
     std::string cpu() const
     {
-      return discloud_responses.get_json<std::string>("apps/cpu");
+      return this->get_json<std::string>("apps/cpu");
     }
     /**
      * It's a value of type string, get the memory of the application.
@@ -199,7 +190,7 @@ namespace dcl
      */
     std::string memory() const
     {
-      return discloud_responses.get_json<std::string>("apps/memory");
+      return this->get_json<std::string>("apps/memory");
     }
     /**
      * It's a value of type string, get the disk of the application.
@@ -207,7 +198,7 @@ namespace dcl
      */
     std::string disk() const
     {
-      return discloud_responses.get_json<std::string>("apps/ssd");
+      return this->get_json<std::string>("apps/ssd");
     }
     /**
      * Get the network down of the application.
@@ -215,7 +206,7 @@ namespace dcl
      */
     std::string network_down() const
     {
-      return discloud_responses.get_json<std::string>("apps/netIO/down");
+      return this->get_json<std::string>("apps/netIO/down");
     }
     /**
      * Get the network up of the application.
@@ -223,7 +214,7 @@ namespace dcl
      */
     std::string network_up() const
     {
-      return discloud_responses.get_json<std::string>("apps/netIO/up");
+      return this->get_json<std::string>("apps/netIO/up");
     }
     /**
      * Get the started at of the application.
@@ -231,7 +222,7 @@ namespace dcl
      */
     std::string started_at() const
     {
-      return discloud_responses.get_json<std::string>("apps/startedAt");
+      return this->get_json<std::string>("apps/startedAt");
     }
     /**
      * It's a value of type string, get the uptime of the application.
@@ -239,7 +230,7 @@ namespace dcl
      */
     std::string uptime() const
     {
-      return discloud_responses.get_json<std::string>("apps/last_restart");
+      return this->get_json<std::string>("apps/last_restart");
     }
     /**
      *
@@ -247,7 +238,7 @@ namespace dcl
      * @return Id application.*/
     std::string id() const
     {
-      return discloud_responses.get_json<std::string>("apps/id");
+      return this->get_json<std::string>("apps/id");
     }
     /**
      * It's the avatar of the application.
@@ -255,14 +246,14 @@ namespace dcl
      */
     std::string avatarURL() const
     {
-      return discloud_responses.get_json<std::string>("apps/avatarURL");
+      return this->get_json<std::string>("apps/avatarURL");
     }
     /**
       It's the name of the application.
       * @return Name application.*/
     std::string name() const
     {
-      return discloud_responses.get_json<std::string>("apps/name");
+      return this->get_json<std::string>("apps/name");
     }
     /**
      * It's a boolean value, if application is online return 1 or exception 0.
@@ -270,7 +261,7 @@ namespace dcl
      */
     bool is_online() const
     {
-      return discloud_responses.get_json<bool>("apps/online");
+      return this->get_json<bool>("apps/online");
     }
     /**
      * It's a boolean value, if application isn't ram killed return 0 or
@@ -279,20 +270,20 @@ namespace dcl
      */
     bool ram_killed() const
     {
-      return discloud_responses.get_json<bool>("apps/ramKilled");
+      return this->get_json<bool>("apps/ramKilled");
     }
     /**
      * It's a int value, it returns the ram comsumed by the application.
      * @return Integer value.
      */
-    int ram() const { return discloud_responses.get_json<int>("apps/ram"); }
+    int ram() const { return this->get_json<int>("apps/ram"); }
     /**
      * It's a string value, it returns the main file of the application.
      * @return The name application file as value.
      */
     std::string file_name() const
     {
-      return discloud_responses.get_json<std::string>("apps/mainFile");
+      return this->get_json<std::string>("apps/mainFile");
     }
     /**
      * It's a string value, it returns the language programmation used by the
@@ -301,7 +292,7 @@ namespace dcl
      */
     std::string lang() const
     {
-      return discloud_responses.get_json<std::string>("apps/lang");
+      return this->get_json<std::string>("apps/lang");
     }
     /**
      * Get the mods installed in the application.
@@ -311,7 +302,7 @@ namespace dcl
     {
       try
       {
-        std::vector<std::string> mods = discloud_responses.get_json<std::vector<std::string>>("apps/mods");
+        std::vector<std::string> mods = this->get_json<std::vector<std::string>>("apps/mods");
 
         std::string app_mods;
         for (const auto &mod : mods)
@@ -337,7 +328,7 @@ namespace dcl
      */
     std::string is_auto_deploy_git() const
     {
-      return discloud_responses.get_json<std::string>("apps/autoDeployGit");
+      return this->get_json<std::string>("apps/autoDeployGit");
     }
     /**
      * Verify if the application can be auto restart.
@@ -345,11 +336,8 @@ namespace dcl
      */
     bool is_auto_restart() const
     {
-      return discloud_responses.get_json<bool>("apps/autoRestart");
+      return this->get_json<bool>("apps/autoRestart");
     }
-
-  private:
-    dcl::DiscloudResponses discloud_responses;
   }; // class application
 }; // namespace dcl
 #endif // !APPLICATION_H
